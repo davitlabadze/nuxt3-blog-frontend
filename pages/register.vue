@@ -37,6 +37,7 @@
           class="w-full px-2 py-2 mt-2 rounded shadow"
         />
       </div>
+
       <div>
         <label for="passwordConfirm" class="block font-semibold"
           >Password Confirm</label
@@ -48,6 +49,7 @@
           class="w-full px-2 py-2 mt-2 rounded shadow"
         />
       </div>
+
       <div>
         <button
           class="inline-block px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
@@ -65,22 +67,29 @@ definePageMeta({
   middleware: ['guest'],
 })
 const title = useState('title')
+
 const router = useRouter()
+
 const name = ref('')
 const email = ref('')
 const password = ref('')
 const passwordConfirm = ref('')
 const isLoading = ref(false)
 const errors = ref([])
+
 const { $apiFetch } = useNuxtApp()
+
 function csrf() {
   return $apiFetch('/sanctum/csrf-cookie')
 }
+
 async function register() {
   await csrf()
+
   isLoading.value = true
+
   try {
-    await $apiFetch('register', {
+    await $apiFetch('/register', {
       method: 'POST',
       body: {
         name: name.value,
@@ -89,16 +98,18 @@ async function register() {
         password_confirmation: passwordConfirm.value,
       },
     })
-    const user = await $apiFetch('user')
+
+    const user = await $apiFetch('/api/user')
     const { setUser } = useAuth()
     setUser(user.name)
+
     alert('Registered')
-    // router.push('/my-info')
     window.location.pathname = '/my-info'
   } catch (err) {
     console.log(err.data)
     errors.value = Object.values(err.data.errors).flat()
   }
+
   isLoading.value = false
 }
 </script>

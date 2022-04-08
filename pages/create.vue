@@ -51,20 +51,25 @@ const body = ref('')
 const isLoading = ref(false)
 const errors = ref([])
 const router = useRouter()
+
 async function createPost() {
   isLoading.value = true
   try {
-    const post = await useNuxtApp().$apiFetch(`post`, {
+    const post = await useNuxtApp().$apiFetch(`/api/post`, {
       method: 'POST',
       body: {
         title: title.value,
         body: body.value,
       },
     })
+
     isLoading.value = false
+
     title.value = ''
     body.value = ''
+
     alert('creating post')
+
     router.push('/')
   } catch (err) {
     console.log(err.data)

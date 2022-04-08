@@ -34,6 +34,7 @@
     <slot />
   </div>
 </template>
+
 <script setup>
 const title = useState('title', () => 'Nuxt 3 Blog')
 const { $apiFetch } = useNuxtApp()
@@ -41,7 +42,7 @@ const { removeUser, isLoggedIn, getUser } = useAuth()
 
 async function logout() {
   try {
-    await $apiFetch('logout', {
+    await $apiFetch('/logout', {
       method: 'POST',
     })
   } catch (err) {
@@ -52,6 +53,7 @@ async function logout() {
   }
 }
 </script>
+
 <style>
 .router-link-active {
   font-weight: bold;

@@ -58,6 +58,7 @@ const router = useRouter()
 const route = useRoute()
 const { $apiFetch } = useNuxtApp()
 const post = ref(null)
+
 onMounted(async () => {
   try {
     post.value = await $apiFetch(`/api/postsAuth/${route.params.id}`)
@@ -67,6 +68,7 @@ onMounted(async () => {
     window.location.pathname = '/'
   }
 })
+
 async function updatePost() {
   isLoading.value = true
   try {
@@ -77,10 +79,14 @@ async function updatePost() {
         body: body.value,
       },
     })
+
     isLoading.value = false
+
     title.value = ''
     body.value = ''
+
     alert('updated post')
+
     router.push('/my-info')
   } catch (err) {
     if (err.response.status === 403) {
@@ -92,16 +98,21 @@ async function updatePost() {
     isLoading.value = false
   }
 }
+
 async function deletePost() {
   isLoading.value = true
   try {
     const post = await $apiFetch(`/api/post/${route.params.id}`, {
       method: 'DELETE',
     })
+
     isLoading.value = false
+
     title.value = ''
     body.value = ''
+
     alert('deleted post')
+
     router.push('/my-info')
   } catch (err) {
     console.log(err.data)

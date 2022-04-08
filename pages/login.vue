@@ -28,6 +28,7 @@
           class="w-full px-2 py-2 mt-2 rounded shadow"
         />
       </div>
+
       <div>
         <button
           class="inline-block px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
@@ -45,26 +46,34 @@ definePageMeta({
   middleware: ['guest'],
 })
 const title = useState('title')
+
 const email = ref('')
 const password = ref('')
 const isLoading = ref(false)
 const errors = ref([])
+
 const { $apiFetch } = useNuxtApp()
+
 function csrf() {
   return $apiFetch('/sanctum/csrf-cookie')
 }
+
 async function login() {
   await csrf()
+
   isLoading.value = true
+
   try {
-    await $apiFetch('login', {
+    await $apiFetch('/login', {
       method: 'POST',
       body: {
         email: email.value,
         password: password.value,
       },
     })
-    const user = await $apiFetch('user')
+
+    const user = await $apiFetch('/api/user')
+
     // router.push('/my-info')
     const { setUser } = useAuth()
     setUser(user.name)
@@ -73,6 +82,7 @@ async function login() {
     console.log(err.data)
     errors.value = Object.values(err.data.errors).flat()
   }
+
   isLoading.value = false
 }
 </script>

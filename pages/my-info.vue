@@ -5,6 +5,7 @@
       <div>Name: {{ user?.name }}</div>
       <div>Email: {{ user?.email }}</div>
     </div>
+
     <div class="mt-4">
       <h3 class="text-2xl">My Posts</h3>
       <ul v-if="posts">
@@ -34,9 +35,12 @@ definePageMeta({
 const title = useState('title')
 const user = ref(null)
 const posts = ref([])
+
 const { $apiFetch } = useNuxtApp()
+
 onMounted(async () => {
-  user.value = await $apiFetch('user')
-  posts.value = await $apiFetch('user/posts')
+  user.value = await $apiFetch('/api/user')
+
+  posts.value = await $apiFetch('/api/user/posts')
 })
 </script>
