@@ -10,6 +10,7 @@
                     <ul class="flex space-x-12">
                         <li><NuxtLink to="/">Home</NuxtLink></li>
                         <li><NuxtLink to="/about">about</NuxtLink></li>
+                        <li><NuxtLink to="/create">create</NuxtLink></li>
                         <li><NuxtLink to="/contact">Contact</NuxtLink></li>
                     </ul>
                 </div>
