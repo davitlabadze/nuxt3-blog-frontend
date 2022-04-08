@@ -1,6 +1,3 @@
-# Nuxt 3 Minimal Starter
-
-We recommend to look at the [documentation](https://v3.nuxtjs.org).
 
 ## Setup
 
@@ -8,6 +5,8 @@ Make sure to install the dependencies
 
 ```bash
 yarn install
+or
+npm install
 ```
 
 ## Development
@@ -16,14 +15,15 @@ Start the development server on http://localhost:3000
 
 ```bash
 yarn dev
+or
+npm run dev
 ```
 
-## Production
+## Packages
+* [tailwindcss](https://tailwindcss.com/) and [@tailwindcss/line-clamp](https://github.com/tailwindlabs/tailwindcss-line-clamp)
+* [data-fns](https://date-fns.org/docs/Getting-Started)
+* [js-cookie](https://github.com/js-cookie/js-cookie)
+  
+## Resources
 
-Build the application for production:
-
-```bash
-yarn build
-```
-
-Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment).
+* [Backend](https://github.com/davitlabadze/vuex3-blog-backend.git)
