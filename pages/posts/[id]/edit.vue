@@ -8,7 +8,8 @@
         {{ error }}
       </li>
     </ul>
-    <form action="#" class="space-y-6" @submit.prevent="createPost">
+    <h2 class="text-2xl">Edit Post</h2>
+    <form action="#" class="space-y-6" @submit.prevent="updatePost">
       <div>
         <label for="title" class="block font-semibold">Title</label>
         <input
@@ -34,11 +35,14 @@
           type="submit"
           class="inline-block px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
         >
-          Create Post
+          Update Post
         </button>
         <span v-show="isLoading">Loading...</span>
       </div>
     </form>
+    <div class="mt-4">
+      <button @click="deletePost">Delete Post</button>
+    </div>
   </div>
 </template>
 
@@ -51,11 +55,23 @@ const body = ref('')
 const isLoading = ref(false)
 const errors = ref([])
 const router = useRouter()
-async function createPost() {
+const route = useRoute()
+const { $apiFetch } = useNuxtApp()
+const post = ref(null)
+onMounted(async () => {
+  try {
+    post.value = await $apiFetch(`/api/postsAuth/${route.params.id}`)
+    title.value = post.value.title
+    body.value = post.value.body
+  } catch (err) {
+    window.location.pathname = '/'
+  }
+})
+async function updatePost() {
   isLoading.value = true
   try {
-    const post = await useNuxtApp().$apiFetch(`post`, {
-      method: 'POST',
+    const post = await $apiFetch(`/api/post/${route.params.id}`, {
+      method: 'PATCH',
       body: {
         title: title.value,
         body: body.value,
@@ -64,11 +80,31 @@ async function createPost() {
     isLoading.value = false
     title.value = ''
     body.value = ''
-    alert('creating post')
-    router.push('/')
+    alert('updated post')
+    router.push('/my-info')
   } catch (err) {
+    if (err.response.status === 403) {
+      alert(err.data.message)
+      return
+    }
     console.log(err.data)
     errors.value = Object.values(err.data.errors).flat()
+    isLoading.value = false
+  }
+}
+async function deletePost() {
+  isLoading.value = true
+  try {
+    const post = await $apiFetch(`/api/post/${route.params.id}`, {
+      method: 'DELETE',
+    })
+    isLoading.value = false
+    title.value = ''
+    body.value = ''
+    alert('deleted post')
+    router.push('/my-info')
+  } catch (err) {
+    console.log(err.data)
     isLoading.value = false
   }
 }
