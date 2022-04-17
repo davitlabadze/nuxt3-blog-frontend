@@ -1,4 +1,6 @@
 
+## App looks like
+![alt](screen.png)
 ## Setup
 
 Make sure to install the dependencies
